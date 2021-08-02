@@ -2,39 +2,57 @@ package com.victortello.ws.webservice;
 
 import java.io.Serializable;
 
-public class UserDto implements Serializable {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity(name="users")
+public class UserEntity implements Serializable{
 
     static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue    
     private long id;
+    
+    @Column(nullable = false)
     private String userId;
+    @Column(nullable = false, length = 50)
     private String firstName;
+    @Column(nullable = false, length = 50)
     private String lastName;
-    private String email;
-    private String password;
+    @Column(nullable = false, length = 120)
+    private String email; 
+    @Column(nullable = false)
     private String encryptedPassword;
     private String emailVerificationToken;
+    @Column(nullable = false)
     private Boolean emailVerificationStatus = false;
 
-
     
-    public UserDto() {
-    }
 
-    public UserDto(long id, String userId, String firstName, String lastName, String email, String password,
-            String encryptedPassword, String emailVerificationToken, Boolean emailVerificationStatus) {
-        this.id = id;
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.encryptedPassword = encryptedPassword;
-        this.emailVerificationToken = emailVerificationToken;
-        this.emailVerificationStatus = emailVerificationStatus;
-    }
+    public UserEntity() {
+    }    
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     public Boolean getEmailVerificationStatus() {
@@ -61,14 +79,6 @@ public class UserDto implements Serializable {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -85,24 +95,8 @@ public class UserDto implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-    
 }
