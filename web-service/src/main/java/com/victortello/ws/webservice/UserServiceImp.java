@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImp implements UserService{
+public class UserServiceImp implements UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -27,12 +27,13 @@ public class UserServiceImp implements UserService{
 
         UserEntity storedUserDetails = userRepository.findUserByEmail(user.getEmail());
 
-        if(storedUserDetails != null) throw new RuntimeException("Record already exists");
+        if (storedUserDetails != null)
+            throw new RuntimeException("Record already exists");
 
         String publicUserId = utils.generatedUserId(30);
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
-        
+
         userEntity.setUserId(publicUserId);
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         UserEntity storeUserDetails = userRepository.save(userEntity);
@@ -43,11 +44,24 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
+    public UserDto getUser(String email) {
+        UserEntity userEntity = userRepository.findUserByEmail(email);
+
+        if (userEntity == null)
+            throw new UsernameNotFoundException(email);
+
+        UserDto returnValue = new UserDto();
+        BeanUtils.copyProperties(userEntity, returnValue);
+        return returnValue;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findUserByEmail(email);
 
-        if (userEntity == null) throw new UsernameNotFoundException(email);
+        if (userEntity == null)
+            throw new UsernameNotFoundException(email);
         return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
     }
-    
+
 }
