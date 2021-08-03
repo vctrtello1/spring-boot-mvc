@@ -2,6 +2,9 @@ package com.victortello.ws.webservice;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +16,9 @@ public class UserServiceImp implements UserService{
     @Autowired
     Utils utils;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public UserDto createUser(UserDto user) {
 
@@ -23,14 +29,20 @@ public class UserServiceImp implements UserService{
         String publicUserId = utils.generatedUserId(30);
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
-
-        userEntity.setEncryptedPassword("test");
+        
         userEntity.setUserId(publicUserId);
+        userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         UserEntity storeUserDetails = userRepository.save(userEntity);
         UserDto returnValue = new UserDto();
         BeanUtils.copyProperties(storeUserDetails, returnValue);
 
         return returnValue;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        
+        return null;
     }
     
 }
