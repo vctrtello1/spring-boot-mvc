@@ -62,8 +62,15 @@ public class userController {
         return returnValue;
     }
 
-    @DeleteMapping()
-    public String deleteUser() {
-        return "delete user was created";
+    @DeleteMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    public OperationStatusModel deleteUser(@PathVariable String id) {
+
+        OperationStatusModel returnValue = new OperationStatusModel();
+        returnValue.setOperationName(RequestOperationName.DELETE.name());
+
+        userService.deleteUser(id);
+
+        returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        return returnValue;
     }
 }
