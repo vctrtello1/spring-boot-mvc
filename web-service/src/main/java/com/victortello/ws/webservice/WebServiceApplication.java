@@ -22,4 +22,9 @@ public class WebServiceApplication {
 		return new SpringApplicationContext();
 	}
 
+	@Bean(name="AppProperties")
+	public AppProperties getAppProperties () {
+		return new AppProperties();
+	}
+
 }
