@@ -37,14 +37,11 @@ public class UserServiceImp implements UserService {
         if (storedUserDetails != null)
             throw new RuntimeException("Record already exists");
 
-        if (user.getAddresses().size() > 0) {
-
-            for (int i = 0; i < user.getAddresses().size(); i++) {
-                AdressDTO adress = user.getAddresses().get(i);
-                adress.setUserDetails(user);
-                adress.setAdressId(utils.generatedAdressId(30));
-                user.getAddresses().set(i, adress);
-            }
+        for (int i = 0; i < user.getAddresses().size(); i++) {
+            AddressDTO address = user.getAddresses().get(i);
+            address.setUserDetails(user);
+            address.setAddressId(utils.generatedAddressId(30));
+            user.getAddresses().set(i, address);
         }
 
         String publicUserId = utils.generatedUserId(30);

@@ -33,7 +33,7 @@ public class UserEntity implements Serializable {
     @Column(nullable = false)
     private Boolean emailVerificationStatus = false;
     @OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
-    private List<AdressEntity> adresses;
+    private List<AddressEntity> addresses;
 
     public long getId() {
         return id;
@@ -99,12 +99,12 @@ public class UserEntity implements Serializable {
         this.firstName = firstName;
     }
 
-    public List<AdressEntity> getAdresses() {
-        return adresses;
+    public List<AddressEntity> getAddresses() {
+        return addresses;
     }
 
-    public void setAdresses(List<AdressEntity> adresses) {
-        this.adresses = adresses;
+    public void setAddresses(List<AddressEntity> addresses) {
+        this.addresses = addresses;
     }
 
 }

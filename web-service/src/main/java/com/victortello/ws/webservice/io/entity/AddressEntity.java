@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Entity(name = "adresses")
-public class AdressEntity implements Serializable {
+@Entity(name = "addresses")
+public class AddressEntity implements Serializable {
 
     static final long serialVersionUID = 1L;
 
@@ -19,13 +19,13 @@ public class AdressEntity implements Serializable {
     private long id;
 
     @Column(length = 30, nullable = false)
-    private String adressId;
+    private String addressId;
     @Column(length = 100, nullable = false)
     private String city;
     @Column(length = 30, nullable = false)
     private String country;
     @Column(length = 20, nullable = false)
-    private String street;
+    private String streetName;
     @Column(length = 10, nullable = false)
     private String type;
     @ManyToOne
@@ -40,12 +40,12 @@ public class AdressEntity implements Serializable {
         this.id = id;
     }
 
-    public String getAdressId() {
-        return adressId;
+    public String getAddressId() {
+        return addressId;
     }
 
-    public void setAdressId(String adressId) {
-        this.adressId = adressId;
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 
     public String getCity() {
@@ -64,12 +64,12 @@ public class AdressEntity implements Serializable {
         this.country = country;
     }
 
-    public String getStreet() {
-        return street;
+    public String getStreetName() {
+        return streetName;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
     public String getType() {

@@ -1,12 +1,12 @@
 package com.victortello.ws.webservice;
 
-public class AdressDTO {
+public class AddressDTO {
 
     private long id;
-    private String adressId;
+    private String addressId;
     private String city;
     private String country;
-    private String street;
+    private String streetName;
     private String type;
     private UserDto userDetails;
 
@@ -14,12 +14,12 @@ public class AdressDTO {
         return id;
     }
 
-    public String getAdressId() {
-        return adressId;
+    public String getAddressId() {
+        return addressId;
     }
 
-    public void setAdressId(String adressId) {
-        this.adressId = adressId;
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 
     public UserDto getUserDetails() {
@@ -38,12 +38,12 @@ public class AdressDTO {
         this.type = type;
     }
 
-    public String getStreet() {
-        return street;
+    public String getStreetName() {
+        return streetName;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
     public String getCountry() {

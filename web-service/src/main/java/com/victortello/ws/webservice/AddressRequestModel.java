@@ -1,10 +1,10 @@
 package com.victortello.ws.webservice;
 
-public class AdressRequestModel {
+public class AddressRequestModel {
 
     private String city;
     private String country;
-    private String street;
+    private String streetName;
     private String type;
 
     public String getCity() {
@@ -19,12 +19,12 @@ public class AdressRequestModel {
         this.type = type;
     }
 
-    public String getStreet() {
-        return street;
+    public String getStreetName() {
+        return streetName;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
     public String getCountry() {

@@ -29,8 +29,8 @@ public class WebServiceApplication extends SpringBootServletInitializer {
 		return new SpringApplicationContext();
 	}
 
-	@Bean(name="AppProperties")
-	public AppProperties getAppProperties () {
+	@Bean(name = "AppProperties")
+	public AppProperties getAppProperties() {
 		return new AppProperties();
 	}
 
