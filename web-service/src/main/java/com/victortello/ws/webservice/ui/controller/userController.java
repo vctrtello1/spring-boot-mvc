@@ -1,13 +1,23 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.ui.controller;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.victortello.ws.webservice.AddressDTO;
+import com.victortello.ws.webservice.RequestOperationStatus;
+import com.victortello.ws.webservice.UserDetailsRequestModel;
+import com.victortello.ws.webservice.UserDto;
+import com.victortello.ws.webservice.UserServiceException;
+import com.victortello.ws.webservice.model.response.AddressesRest;
 import com.victortello.ws.webservice.model.response.ErrorMessages;
 import com.victortello.ws.webservice.model.response.OperationStatusModel;
 import com.victortello.ws.webservice.model.response.UserRest;
+import com.victortello.ws.webservice.service.AddressService;
+import com.victortello.ws.webservice.service.UserService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,6 +37,9 @@ public class userController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    AddressService addressService;
 
     @GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public UserRest getUser(@PathVariable String id) {
@@ -98,4 +111,22 @@ public class userController {
 
         return returnValue;
     }
+
+    @GetMapping(path = "/{id}/addresses", produces = { MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE })
+    public List<AddressesRest> getUserAddresses(@PathVariable String id) {
+
+        List<AddressesRest> returnValue = new ArrayList<>();
+
+        List<AddressDTO> addressesDto = addressService.getAddresses(id);
+
+        if (addressesDto != null && !addressesDto.isEmpty()) {
+            Type listType = new TypeToken<List<AddressesRest>>() {
+            }.getType();
+            returnValue = new ModelMapper().map(addressesDto, listType);
+        }
+
+        return returnValue;
+    }
+
 }

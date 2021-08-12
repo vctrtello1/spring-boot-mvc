@@ -1,6 +1,8 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.service;
 
 import java.util.List;
+
+import com.victortello.ws.webservice.UserDto;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

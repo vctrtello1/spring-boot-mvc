@@ -1,4 +1,4 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.ui.controller;
 
 public enum RequestOperationName {
     DELETE, VERIFY_EMAIL, REQUEST_PASSWORD_RESET, PASSWORD_RESET

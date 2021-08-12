@@ -1,5 +1,7 @@
 package com.victortello.ws.webservice;
 
+import com.victortello.ws.webservice.service.UserService;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
