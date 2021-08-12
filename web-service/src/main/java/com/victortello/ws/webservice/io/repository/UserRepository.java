@@ -1,4 +1,4 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.io.repository;
 
 
 import com.victortello.ws.webservice.io.entity.UserEntity;
