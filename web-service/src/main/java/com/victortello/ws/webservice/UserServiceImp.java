@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.victortello.ws.webservice.io.entity.UserEntity;
+import com.victortello.ws.webservice.model.response.ErrorMessages;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;

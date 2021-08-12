@@ -1,4 +1,4 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.model.response;
 
 public enum ErrorMessages {
     MISSING_REQUIRED_FIELD("Missing required field. Please check documentation for required fields"),

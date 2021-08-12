@@ -1,14 +1,17 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.model.response;
+
+import java.util.List;
 
 public class UserRest {
     private String userId;
     private String firstName;
     private String lastName;
     private String email;
+    private List<AddressesRest> addresses;
 
     public UserRest() {
     }
-    
+
     public UserRest(String userId, String firstName, String lastName, String email) {
         this.userId = userId;
         this.firstName = firstName;
@@ -47,4 +50,13 @@ public class UserRest {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public List<AddressesRest> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressesRest> addresses) {
+        this.addresses = addresses;
+    }
+
 }

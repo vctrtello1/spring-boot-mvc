@@ -1,4 +1,4 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.model.response;
 
 import java.util.Date;
 

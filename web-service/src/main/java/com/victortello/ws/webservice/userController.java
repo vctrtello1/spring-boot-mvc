@@ -3,6 +3,10 @@ package com.victortello.ws.webservice;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.victortello.ws.webservice.model.response.ErrorMessages;
+import com.victortello.ws.webservice.model.response.OperationStatusModel;
+import com.victortello.ws.webservice.model.response.UserRest;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

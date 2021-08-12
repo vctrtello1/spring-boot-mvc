@@ -2,6 +2,8 @@ package com.victortello.ws.webservice;
 
 import java.util.Date;
 
+import com.victortello.ws.webservice.model.response.ErrorMessage;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
