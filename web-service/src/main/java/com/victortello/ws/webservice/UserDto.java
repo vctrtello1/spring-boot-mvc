@@ -1,6 +1,7 @@
 package com.victortello.ws.webservice;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserDto implements Serializable {
 
@@ -14,10 +15,19 @@ public class UserDto implements Serializable {
     private String encryptedPassword;
     private String emailVerificationToken;
     private Boolean emailVerificationStatus = false;
+    private List<AdressDTO> addresses;
 
 
     
     public UserDto() {
+    }
+
+    public List<AdressDTO> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AdressDTO> addresses) {
+        this.addresses = addresses;
     }
 
     public UserDto(long id, String userId, String firstName, String lastName, String email, String password,

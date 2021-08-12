@@ -3,6 +3,9 @@ package com.victortello.ws.webservice;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.victortello.ws.webservice.io.entity.UserEntity;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,15 +37,24 @@ public class UserServiceImp implements UserService {
         if (storedUserDetails != null)
             throw new RuntimeException("Record already exists");
 
+        if (user.getAddresses().size() > 0) {
+
+            for (int i = 0; i < user.getAddresses().size(); i++) {
+                AdressDTO adress = user.getAddresses().get(i);
+                adress.setUserDetails(user);
+                adress.setAdressId(utils.generatedAdressId(30));
+                user.getAddresses().set(i, adress);
+            }
+        }
+
         String publicUserId = utils.generatedUserId(30);
-        UserEntity userEntity = new UserEntity();
-        BeanUtils.copyProperties(user, userEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        UserEntity userEntity = modelMapper.map(user, UserEntity.class);
 
         userEntity.setUserId(publicUserId);
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         UserEntity storeUserDetails = userRepository.save(userEntity);
-        UserDto returnValue = new UserDto();
-        BeanUtils.copyProperties(storeUserDetails, returnValue);
+        UserDto returnValue = modelMapper.map(storeUserDetails, UserDto.class);
 
         return returnValue;
     }
@@ -129,7 +141,7 @@ public class UserServiceImp implements UserService {
         }
 
         return returnValue;
-    
+
     }
 
 }

@@ -1,20 +1,16 @@
 package com.victortello.ws.webservice;
 
+import java.util.List;
+
 public class UserDetailsRequestModel {
 
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private List<AdressRequestModel> addresses;
 
     public UserDetailsRequestModel() {
-    }
-
-    public UserDetailsRequestModel(String firstName, String lastName, String email, String password) {
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setEmail(email);
-        this.setPassword(password);
     }
 
     public String getFirstName() {
@@ -49,10 +45,11 @@ public class UserDetailsRequestModel {
         this.password = password;
     }
 
-    
+    public List<AdressRequestModel> getAddresses() {
+        return addresses;
+    }
 
-    
-
-        
-
+    public void setAddresses(List<AdressRequestModel> addresses) {
+        this.addresses = addresses;
+    }
 }
