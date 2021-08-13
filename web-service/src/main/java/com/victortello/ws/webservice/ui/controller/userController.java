@@ -21,6 +21,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -119,13 +120,13 @@ public class userController {
         return returnValue;
     }
 
-    @GetMapping(path = "/{id}/addresses", produces = { MediaType.APPLICATION_JSON_VALUE,
+    @GetMapping(path = "/{userId}/addresses", produces = { MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE })
-    public List<AddressesRest> getUserAddresses(@PathVariable String id) {
+    public CollectionModel<AddressesRest> getUserAddresses(@PathVariable String userId) {
 
         List<AddressesRest> returnValue = new ArrayList<>();
 
-        List<AddressDTO> addressesDto = addressesService.getAddresses(id);
+        List<AddressDTO> addressesDto = addressesService.getAddresses(userId);
 
         if (addressesDto != null && !addressesDto.isEmpty()) {
             Type listType = new TypeToken<List<AddressesRest>>() {
@@ -133,7 +134,18 @@ public class userController {
             returnValue = new ModelMapper().map(addressesDto, listType);
         }
 
-        return returnValue;
+        for (AddressesRest addressRest : returnValue) {
+
+            Link addressLink = WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(userController.class).getUserAddress(userId, addressRest.getAddressId()))
+                    .withSelfRel();
+            addressRest.add(addressLink);
+        }
+
+        Link userLink = WebMvcLinkBuilder.linkTo(userController.class).slash(userId).withRel("user");
+        Link addressesLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(userController.class).getUserAddresses(userId)).withSelfRel();
+        return CollectionModel.of(returnValue, userLink, addressesLink);
     }
 
     @GetMapping(path = "/{userId}/addresses/{addressId}", produces = { MediaType.APPLICATION_JSON_VALUE,
