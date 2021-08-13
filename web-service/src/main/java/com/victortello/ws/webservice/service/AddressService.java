@@ -6,4 +6,5 @@ import com.victortello.ws.webservice.AddressDTO;
 
 public interface AddressService {
     List<AddressDTO> getAddresses(String userId);
+    AddressDTO getAddress(String addressId);
 }
