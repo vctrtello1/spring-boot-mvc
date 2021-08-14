@@ -1,4 +1,4 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.exceptions;
 
 import java.util.Date;
 

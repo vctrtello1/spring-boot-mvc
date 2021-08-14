@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.victortello.ws.webservice.AddressDTO;
-import com.victortello.ws.webservice.RequestOperationStatus;
-import com.victortello.ws.webservice.UserDetailsRequestModel;
-import com.victortello.ws.webservice.UserDto;
-import com.victortello.ws.webservice.UserServiceException;
+import com.victortello.ws.webservice.exceptions.UserServiceException;
+import com.victortello.ws.webservice.model.request.UserDetailsRequestModel;
 import com.victortello.ws.webservice.model.response.AddressesRest;
 import com.victortello.ws.webservice.model.response.ErrorMessages;
 import com.victortello.ws.webservice.model.response.OperationStatusModel;
+import com.victortello.ws.webservice.model.response.RequestOperationStatus;
 import com.victortello.ws.webservice.model.response.UserRest;
 import com.victortello.ws.webservice.service.AddressService;
 import com.victortello.ws.webservice.service.UserService;
+import com.victortello.ws.webservice.shared.dto.AddressDTO;
+import com.victortello.ws.webservice.shared.dto.UserDto;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

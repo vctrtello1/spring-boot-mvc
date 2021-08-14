@@ -1,4 +1,4 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.victortello.ws.webservice.SpringApplicationContext;
+import com.victortello.ws.webservice.model.request.UserLoginRequestModel;
 import com.victortello.ws.webservice.service.UserService;
+import com.victortello.ws.webservice.shared.dto.UserDto;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

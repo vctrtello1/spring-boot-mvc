@@ -1,4 +1,4 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.shared.dto;
 
 public class AddressDTO {
 

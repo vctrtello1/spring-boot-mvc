@@ -1,4 +1,4 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.security;
 
 import com.victortello.ws.webservice.service.UserService;
 

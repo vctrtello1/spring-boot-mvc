@@ -1,4 +1,7 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.security;
+
+import com.victortello.ws.webservice.AppProperties;
+import com.victortello.ws.webservice.SpringApplicationContext;
 
 public class SecurityConstants {
 

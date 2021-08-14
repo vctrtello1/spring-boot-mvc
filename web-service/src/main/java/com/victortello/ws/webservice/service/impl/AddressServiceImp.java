@@ -3,12 +3,12 @@ package com.victortello.ws.webservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.victortello.ws.webservice.AddressDTO;
 import com.victortello.ws.webservice.io.entity.AddressEntity;
 import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.AddressRepository;
 import com.victortello.ws.webservice.io.repository.UserRepository;
 import com.victortello.ws.webservice.service.AddressService;
+import com.victortello.ws.webservice.shared.dto.AddressDTO;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.victortello.ws.webservice;
+package com.victortello.ws.webservice.shared.dto;
 
 import java.io.Serializable;
 import java.util.List;

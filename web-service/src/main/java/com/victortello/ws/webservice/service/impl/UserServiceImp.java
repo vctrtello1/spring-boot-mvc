@@ -3,14 +3,14 @@ package com.victortello.ws.webservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.victortello.ws.webservice.AddressDTO;
-import com.victortello.ws.webservice.UserDto;
-import com.victortello.ws.webservice.UserServiceException;
-import com.victortello.ws.webservice.Utils;
+import com.victortello.ws.webservice.exceptions.UserServiceException;
 import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.UserRepository;
 import com.victortello.ws.webservice.model.response.ErrorMessages;
 import com.victortello.ws.webservice.service.UserService;
+import com.victortello.ws.webservice.shared.Utils;
+import com.victortello.ws.webservice.shared.dto.AddressDTO;
+import com.victortello.ws.webservice.shared.dto.UserDto;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
