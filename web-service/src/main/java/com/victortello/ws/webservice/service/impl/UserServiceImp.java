@@ -58,6 +58,7 @@ public class UserServiceImp implements UserService {
         userEntity.setUserId(publicUserId);
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userEntity.setEmailVerificationToken(utils.generateEmailVerificationToken(publicUserId));
+        userEntity.setEmailVerificationStatus(false);
         UserEntity storeUserDetails = userRepository.save(userEntity);
         UserDto returnValue = modelMapper.map(storeUserDetails, UserDto.class);
 
@@ -82,7 +83,9 @@ public class UserServiceImp implements UserService {
 
         if (userEntity == null)
             throw new UsernameNotFoundException(email);
-        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
+
+        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
+                userEntity.getEmailVerificationStatus(), true, true, true, new ArrayList<>());
     }
 
     @Override
