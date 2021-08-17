@@ -1,3 +1,6 @@
+#war files
+*.war
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -31,6 +34,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-#war files
-*.war
