@@ -8,6 +8,7 @@ import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.UserRepository;
 import com.victortello.ws.webservice.model.response.ErrorMessages;
 import com.victortello.ws.webservice.service.UserService;
+import com.victortello.ws.webservice.shared.AmazonSES;
 import com.victortello.ws.webservice.shared.Utils;
 import com.victortello.ws.webservice.shared.dto.AddressDTO;
 import com.victortello.ws.webservice.shared.dto.UserDto;
@@ -61,6 +62,10 @@ public class UserServiceImp implements UserService {
         userEntity.setEmailVerificationStatus(false);
         UserEntity storeUserDetails = userRepository.save(userEntity);
         UserDto returnValue = modelMapper.map(storeUserDetails, UserDto.class);
+
+
+        // Send an email message to user to verify their email address
+        new AmazonSES().verifyEmail(returnValue);
 
         return returnValue;
     }
