@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.victortello.ws.webservice.exceptions.UserServiceException;
+import com.victortello.ws.webservice.io.entity.PasswordResetTokenEntity;
 import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.UserRepository;
+import com.victortello.ws.webservice.io.repository.PasswordResetTokenRepository;
 import com.victortello.ws.webservice.model.response.ErrorMessages;
 import com.victortello.ws.webservice.service.UserService;
 import com.victortello.ws.webservice.shared.AmazonSES;
@@ -30,6 +32,9 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
     Utils utils;
@@ -62,7 +67,6 @@ public class UserServiceImp implements UserService {
         userEntity.setEmailVerificationStatus(false);
         UserEntity storeUserDetails = userRepository.save(userEntity);
         UserDto returnValue = modelMapper.map(storeUserDetails, UserDto.class);
-
 
         // Send an email message to user to verify their email address
         new AmazonSES().verifyEmail(returnValue);
@@ -158,9 +162,9 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public boolean verifyEmailToken(String token) {        
+    public boolean verifyEmailToken(String token) {
         boolean returnValue = false;
-        
+
         UserEntity userEntity = userRepository.findUserByEmailVerificationToken(token);
 
         if (userEntity != null) {
@@ -174,6 +178,28 @@ public class UserServiceImp implements UserService {
         }
 
         return returnValue;
+    }
+
+    @Override
+    public boolean requestPasswordReset(String email) {
+
+        boolean returnValue = false;
+        UserEntity userEntity = userRepository.findUserByEmail(email);
+
+        if (userEntity == null) {
+            return returnValue;
+        }
+
+        String token = new Utils().generatePasswordResetToken(userEntity.getUserId());
+
+        PasswordResetTokenEntity passwordResetTokenEntity = new PasswordResetTokenEntity();
+        passwordResetTokenEntity.setToken(token);
+        passwordResetTokenEntity.setUserDetails(userEntity);
+        passwordResetTokenRepository.save(passwordResetTokenEntity);
+
+        returnValue = new AmazonSES().sendPasswordResetRequest(userEntity.getFirstName(), userEntity.getEmail(), token);
+
+        return false;
     }
 
 }
