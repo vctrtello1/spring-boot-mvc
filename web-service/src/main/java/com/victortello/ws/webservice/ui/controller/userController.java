@@ -26,6 +26,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -170,6 +171,7 @@ public class userController {
 
     @GetMapping(path = "/email-verification", produces = { MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE })
+    @CrossOrigin(origins = "*")
     public OperationStatusModel verifyEmailToken(@RequestParam(value = "token") String token) {
 
         OperationStatusModel returnValue = new OperationStatusModel();
