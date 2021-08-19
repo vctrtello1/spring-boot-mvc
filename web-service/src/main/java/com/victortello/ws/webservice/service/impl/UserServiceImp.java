@@ -199,7 +199,7 @@ public class UserServiceImp implements UserService {
 
         returnValue = new AmazonSES().sendPasswordResetRequest(userEntity.getFirstName(), userEntity.getEmail(), token);
 
-        return false;
+        return returnValue;
     }
 
 }

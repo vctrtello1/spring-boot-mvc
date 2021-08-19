@@ -78,7 +78,7 @@ public class AmazonSES {
                 boolean returnValue = false;
 
                 AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard()
-                                .withRegion(Regions.US_EAST_1).build();
+                                .withRegion(Regions.US_EAST_2).build();
 
                 String htmlBodyWithToken = PASSWORD_RESET_HTMLBODY.replace("$tokenValue", token);
                 htmlBodyWithToken = htmlBodyWithToken.replace("$firstName", firstName);
