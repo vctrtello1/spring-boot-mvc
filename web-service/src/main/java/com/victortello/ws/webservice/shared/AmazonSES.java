@@ -39,14 +39,14 @@ public class AmazonSES {
         final String PASSWORD_RESET_HTMLBODY = "<h1>A request to reset your password</h1>" + "<p>Hi, $firstName!</p> "
                         + "<p>Someone has requested to reset your password with our project. If it were not you, please ignore it."
                         + " otherwise please click on the link below to set a new password: "
-                        + "<a href='http://localhost:8080/verification-service/password-reset.html?token=$tokenValue'>"
+                        + "<a href='http://localhost:8080/verification_service/password-reset.html?token=$tokenValue'>"
                         + " Click this link to Reset Password" + "</a><br/><br/>" + "Thank you!";
 
         // The email body for recipients with non-HTML email clients.
         final String PASSWORD_RESET_TEXTBODY = "A request to reset your password " + "Hi, $firstName! "
                         + "Someone has requested to reset your password with our project. If it were not you, please ignore it."
                         + " otherwise please open the link below in your browser window to set a new password:"
-                        + " http://localhost:8080/verification-service/password-reset.html?token=$tokenValue"
+                        + " http://localhost:8080/verification_service/password-reset.html?token=$tokenValue"
                         + " Thank you!";
 
         public void verifyEmail(UserDto userDto) {

@@ -17,6 +17,7 @@ import com.victortello.ws.webservice.service.UserService;
 import com.victortello.ws.webservice.shared.dto.AddressDTO;
 import com.victortello.ws.webservice.shared.dto.UserDto;
 import com.victortello.ws.webservice.model.request.PasswordResetRequestModel;
+import com.victortello.ws.webservice.model.request.PasswordResetModel;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -207,5 +208,23 @@ public class userController {
         return returnValue;
     }
 
-}
+    @PostMapping(path = "/password-reset", consumes = { MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE })
+    @CrossOrigin(origins = "*")
+    public OperationStatusModel resetPassword(@RequestBody PasswordResetModel passwordResetModel) {
+        OperationStatusModel returnValue = new OperationStatusModel();
 
+        boolean operationResult = userService.resetPassword(passwordResetModel.getToken(),
+                passwordResetModel.getPassword());
+
+        returnValue.setOperationName(RequestOperationName.PASSWORD_RESET.name());
+        returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
+
+        if (operationResult) {
+            returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        }
+
+        return returnValue;
+    }
+
+}
