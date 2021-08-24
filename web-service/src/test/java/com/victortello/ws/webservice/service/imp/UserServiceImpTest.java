@@ -1,5 +1,6 @@
 package com.victortello.ws.webservice.service.imp;
 
+import com.victortello.ws.webservice.io.entity.AddressEntity;
 import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.UserRepository;
 import com.victortello.ws.webservice.service.impl.UserServiceImp;
@@ -13,10 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.reflect.Type;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,9 +63,11 @@ class UserServiceImpTest {
 		userEntity.setId(1L);
 		userEntity.setFirstName("Victor");
 		userEntity.setLastName("Tello");
+		userEntity.setUserId(userId);
 		userEntity.setEncryptedPassword(encryptedPassword);
 		userEntity.setEmail("vctrtello@gmail.com");
 		userEntity.setEmailVerificationToken("7htnfhr758");
+		userEntity.setAddresses(getAddressesEntity());
 	}
 
 	@Test
@@ -94,12 +102,22 @@ class UserServiceImpTest {
 		userDto.setAddresses(getAddressesDto());
 		userDto.setFirstName("victor");
 		userDto.setLastName("tello");
+		userEntity.setUserId(userId);
 		userDto.setPassword("duende125");
 		userDto.setEmail("vctrtello@gmail.com");
 
 		UserDto storedUserDetails = userServiceImp.createUser(userDto);
 		assertNotNull(storedUserDetails);
-		
+
+		assertNotNull(storedUserDetails);
+		assertEquals(userEntity.getFirstName(), storedUserDetails.getFirstName());
+		assertEquals(userEntity.getLastName(), storedUserDetails.getLastName());
+		assertNotNull(storedUserDetails.getUserId());
+		assertEquals(storedUserDetails.getAddresses().size(), userEntity.getAddresses().size());
+		verify(utils, times(storedUserDetails.getAddresses().size())).generatedAddressId(30);
+		verify(bCryptPasswordEncoder, times(1)).encode("duende125");
+		verify(userRepository, times(1)).save(any(UserEntity.class));
+
 	}
 
 	private List<AddressDTO> getAddressesDto() {
@@ -123,6 +141,15 @@ class UserServiceImpTest {
 
 		return addresses;
 
+	}
+
+	private List<AddressEntity> getAddressesEntity() {
+		List<AddressDTO> addresses = getAddressesDto();
+
+		Type listType = new TypeToken<List<AddressEntity>>() {
+		}.getType();
+
+		return new ModelMapper().map(addresses, listType);
 	}
 
 }
