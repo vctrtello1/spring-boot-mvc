@@ -7,6 +7,7 @@ import com.victortello.ws.webservice.service.impl.UserServiceImp;
 import com.victortello.ws.webservice.shared.dto.UserDto;
 import com.victortello.ws.webservice.shared.dto.AddressDTO;
 import com.victortello.ws.webservice.shared.Utils;
+import com.victortello.ws.webservice.exceptions.UserServiceException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -86,6 +87,24 @@ class UserServiceImpTest {
 
 		assertThrows(UsernameNotFoundException.class, () -> {
 			userServiceImp.getUser("test@test.com");
+		});
+	}
+
+	@Test
+	final void testCreateUser_CreateUserServiceException() {
+
+		when(userRepository.findUserByEmail(anyString())).thenReturn(userEntity);
+
+		UserDto userDto = new UserDto();
+		userDto.setAddresses(getAddressesDto());
+		userDto.setFirstName("victor");
+		userDto.setLastName("tello");
+		userEntity.setUserId(userId);
+		userDto.setPassword("duende125");
+		userDto.setEmail("vct@gmail.com");
+
+		assertThrows(UserServiceException.class, () -> {
+			userServiceImp.createUser(userDto);
 		});
 	}
 

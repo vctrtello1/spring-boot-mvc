@@ -48,7 +48,7 @@ public class UserServiceImp implements UserService {
         UserEntity storedUserDetails = userRepository.findUserByEmail(user.getEmail());
 
         if (storedUserDetails != null)
-            throw new RuntimeException("Record already exists");
+            throw new UserServiceException("Record already exists");
 
         for (int i = 0; i < user.getAddresses().size(); i++) {
             AddressDTO address = user.getAddresses().get(i);
