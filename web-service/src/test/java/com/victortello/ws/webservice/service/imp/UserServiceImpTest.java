@@ -22,9 +22,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.victortello.ws.webservice.shared.AmazonSES;
 
 class UserServiceImpTest {
 
@@ -33,6 +35,9 @@ class UserServiceImpTest {
 
 	@Mock
 	UserRepository userRepository;
+
+	@Mock
+	AmazonSES amazonSES;
 
 	@Mock
 	Utils utils;
@@ -48,16 +53,17 @@ class UserServiceImpTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this);
+		userEntity = new UserEntity();
 		userEntity.setId(1L);
 		userEntity.setFirstName("Victor");
 		userEntity.setLastName("Tello");
 		userEntity.setEncryptedPassword(encryptedPassword);
-		userEntity.setEmail("test@test.com");
-		userEntity.setEmailVerificationToken("7htnfhr758");		
+		userEntity.setEmail("vctrtello@gmail.com");
+		userEntity.setEmailVerificationToken("7htnfhr758");
 	}
 
 	@Test
-	void testGetUser() {				
+	void testGetUser() {
 		when(userRepository.findUserByEmail(anyString())).thenReturn(userEntity);
 
 		UserDto userDto = userServiceImp.getUser("test@test.com");
@@ -76,24 +82,47 @@ class UserServiceImpTest {
 	}
 
 	@Test
-	final void testCreateUser(){
+	final void testCreateUser() {
 		when(userRepository.findUserByEmail(anyString())).thenReturn(null);
 		when(utils.generatedUserId(anyInt())).thenReturn(userId);
 		when(utils.generatedAddressId(anyInt())).thenReturn("hgfnghtyrir884");
 		when(bCryptPasswordEncoder.encode(anyString())).thenReturn(encryptedPassword);
 		when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
+		Mockito.doNothing().when(amazonSES).verifyEmail(any(UserDto.class));
 
+		UserDto userDto = new UserDto();
+		userDto.setAddresses(getAddressesDto());
+		userDto.setFirstName("victor");
+		userDto.setLastName("tello");
+		userDto.setPassword("duende125");
+		userDto.setEmail("vctrtello@gmail.com");
+
+		UserDto storedUserDetails = userServiceImp.createUser(userDto);
+		assertNotNull(storedUserDetails);
+		
+	}
+
+	private List<AddressDTO> getAddressesDto() {
 		AddressDTO addressDto = new AddressDTO();
 		addressDto.setType("shipping");
+		addressDto.setCity("Vancouver");
+		addressDto.setCountry("Canada");
+		addressDto.setPostalCode("ABC123");
+		addressDto.setStreetName("123 Street name");
+
+		AddressDTO billingAddressDto = new AddressDTO();
+		billingAddressDto.setType("billling");
+		billingAddressDto.setCity("Vancouver");
+		billingAddressDto.setCountry("Canada");
+		billingAddressDto.setPostalCode("ABC123");
+		billingAddressDto.setStreetName("123 Street name");
 
 		List<AddressDTO> addresses = new ArrayList<>();
 		addresses.add(addressDto);
-		
-		UserDto userDto = new UserDto();
-		userDto.setAddresses(addresses);
-		UserDto storedUserDetails = userServiceImp.createUser(userDto);
-		assertNotNull(storedUserDetails);
-		assertEquals(userEntity.getFirstName(), storedUserDetails.getFirstName());
+		addresses.add(billingAddressDto);
+
+		return addresses;
+
 	}
 
 }

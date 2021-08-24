@@ -20,12 +20,15 @@ public class AddressEntity implements Serializable {
 
     @Column(length = 30, nullable = false)
     private String addressId;
+    
     @Column(length = 100, nullable = false)
     private String city;
     @Column(length = 30, nullable = false)
     private String country;
     @Column(length = 20, nullable = false)
     private String streetName;
+    @Column(name = "postal_code",length = 7, nullable = false)
+    private String postalCode;
     @Column(length = 10, nullable = false)
     private String type;
     @ManyToOne
@@ -70,6 +73,14 @@ public class AddressEntity implements Serializable {
 
     public void setStreetName(String streetName) {
         this.streetName = streetName;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getType() {

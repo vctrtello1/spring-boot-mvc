@@ -9,6 +9,7 @@ public class AddressDTO {
     private String streetName;
     private String type;
     private UserDto userDetails;
+    private String postalCode;
 
     public long getId() {
         return id;
@@ -64,6 +65,14 @@ public class AddressDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
 }
