@@ -21,7 +21,6 @@ import com.victortello.ws.webservice.model.request.PasswordResetModel;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -90,9 +89,10 @@ public class userController {
             throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 
         UserDto userDto = new UserDto();
-        BeanUtils.copyProperties(userDetails, userDto);
-        UserDto updatedUser = userService.updateUser(id, userDto);
-        BeanUtils.copyProperties(updatedUser, returnValue);
+
+        userDto = new ModelMapper().map(userDetails, UserDto.class);
+        UserDto updateUser = userService.updateUser(id, userDto);
+        returnValue = new ModelMapper().map(updateUser, UserRest.class);
         return returnValue;
     }
 
@@ -115,11 +115,9 @@ public class userController {
 
         List<UserDto> users = userService.getUsers(page, limit);
 
-        for (UserDto userDto : users) {
-            UserRest userModel = new UserRest();
-            BeanUtils.copyProperties(userDto, userModel);
-            returnValue.add(userModel);
-        }
+        Type listType = new TypeToken<List<UserRest>>() {
+        }.getType();
+        returnValue = new ModelMapper().map(users, listType);
 
         return returnValue;
     }
