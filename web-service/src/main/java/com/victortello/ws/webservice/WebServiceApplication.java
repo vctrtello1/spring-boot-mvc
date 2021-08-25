@@ -15,7 +15,6 @@ public class WebServiceApplication extends SpringBootServletInitializer {
 		return application.sources(WebServiceApplication.class);
 	}
 
-	
 	public static void main(String[] args) {
 		SpringApplication.run(WebServiceApplication.class, args);
 	}

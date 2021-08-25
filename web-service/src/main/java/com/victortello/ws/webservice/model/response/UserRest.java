@@ -9,16 +9,6 @@ public class UserRest {
     private String email;
     private List<AddressesRest> addresses;
 
-    public UserRest() {
-    }
-
-    public UserRest(String userId, String firstName, String lastName, String email) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
     public String getUserId() {
         return userId;
     }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -59,7 +60,7 @@ class UserControllerTest {
 		assertEquals(USER_ID, userRest.getUserId());
 		assertEquals(userDto.getFirstName(), userRest.getFirstName());
 		assertEquals(userDto.getLastName(), userRest.getLastName());
-		//assertTrue(userDto.getAddresses().size() == userRest.getAddresses().size());
+		assertTrue(userDto.getAddresses().size() == userRest.getAddresses().size());
 	}
 
 	private List<AddressDTO> getAddressesDto() {
