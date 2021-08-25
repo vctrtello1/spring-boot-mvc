@@ -12,8 +12,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes= com.victortello.ws.webservice.shared.Utils.class)
+@SpringBootTest(classes = com.victortello.ws.webservice.shared.Utils.class)
 class UtilsTest {
 
 	@Autowired
