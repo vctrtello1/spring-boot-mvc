@@ -20,27 +20,6 @@ public class UserDto implements Serializable {
     public UserDto() {
     }
 
-    public List<AddressDTO> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<AddressDTO> addresses) {
-        this.addresses = addresses;
-    }
-
-    public UserDto(long id, String userId, String firstName, String lastName, String email, String password,
-            String encryptedPassword, String emailVerificationToken, Boolean emailVerificationStatus) {
-        this.id = id;
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.encryptedPassword = encryptedPassword;
-        this.emailVerificationToken = emailVerificationToken;
-        this.emailVerificationStatus = emailVerificationStatus;
-    }
-
     public long getId() {
         return id;
     }
@@ -111,6 +90,14 @@ public class UserDto implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<AddressDTO> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressDTO> addresses) {
+        this.addresses = addresses;
     }
 
 }
