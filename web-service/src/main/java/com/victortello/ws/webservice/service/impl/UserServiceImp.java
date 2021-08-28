@@ -99,14 +99,13 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDto getUserByUserId(String id) {
+
         UserDto returnValue = new UserDto();
         UserEntity userEntity = userRepository.findByUserId(id);
-
-        if (userEntity == null)
-            throw new UsernameNotFoundException(id);
-
-        BeanUtils.copyProperties(userEntity, returnValue);
+        ModelMapper modelMapper = new ModelMapper();
+        returnValue = modelMapper.map(userEntity, UserDto.class);
         return returnValue;
+
     }
 
     @Override
@@ -235,5 +234,4 @@ public class UserServiceImp implements UserService {
         return returnValue;
     }
 
-    
 }

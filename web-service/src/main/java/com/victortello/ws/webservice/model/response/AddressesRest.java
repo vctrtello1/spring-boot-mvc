@@ -2,12 +2,13 @@ package com.victortello.ws.webservice.model.response;
 
 import org.springframework.hateoas.RepresentationModel;
 
-public class AddressesRest extends RepresentationModel<AddressesRest>{
+public class AddressesRest extends RepresentationModel<AddressesRest> {
 
     private String addressId;
     private String city;
     private String country;
     private String streetName;
+    private String postalCode;
     private String type;
 
     public String getAddressId() {
@@ -40,6 +41,14 @@ public class AddressesRest extends RepresentationModel<AddressesRest>{
 
     public void setStreetName(String streetName) {
         this.streetName = streetName;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getType() {
