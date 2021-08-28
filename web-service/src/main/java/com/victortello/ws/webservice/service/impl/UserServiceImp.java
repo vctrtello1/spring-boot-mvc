@@ -120,10 +120,10 @@ public class UserServiceImp implements UserService {
         userEntity.setLastName(user.getLastName());
 
         UserEntity updatedUserDetails = userRepository.save(userEntity);
-
-        BeanUtils.copyProperties(updatedUserDetails, returnValue);
-
+        ModelMapper modelMapper = new ModelMapper();
+        returnValue = modelMapper.map(updatedUserDetails, UserDto.class);
         return returnValue;
+
     }
 
     @Override
