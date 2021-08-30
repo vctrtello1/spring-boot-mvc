@@ -1,27 +1,30 @@
-package com.victortello.ws.io.repository;
-
-import com.victortello.ws.webservice.io.repository.UserRepository;
-import com.victortello.ws.webservice.io.entity.AddressEntity;
-import com.victortello.ws.webservice.io.entity.UserEntity;
-
-import java.util.List;
-import java.util.ArrayList;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
+package com.victortello.ws.webservice.io.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.victortello.ws.webservice.io.entity.AddressEntity;
+import com.victortello.ws.webservice.io.entity.UserEntity;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
+import java.util.List;
+import java.util.ArrayList;
+
+@ExtendWith(SpringExtension.class)
+@SpringBootTest()
 class UserRepositoryTest {
 
 	@Autowired
 	UserRepository userRepository;
+
 
 	static boolean recordsCreated = false;
 
@@ -30,10 +33,11 @@ class UserRepositoryTest {
 		if (!recordsCreated) {
 			createRecords();
 		}
+
 	}
 
 	@Test
-	final void testGetVerifiedUsers() {
+	void testGetVerifiedUsers() {
 		Pageable pageableRequest = PageRequest.of(1, 1);
 		Page<UserEntity> page = userRepository.findAllUsersWithConfirmedEmailAddress(pageableRequest);
 		assertNotNull(page);
@@ -46,8 +50,8 @@ class UserRepositoryTest {
 	private void createRecords() {
 		// Prepare User Entity
 		UserEntity userEntity = new UserEntity();
-		userEntity.setFirstName("Sergey");
-		userEntity.setLastName("Kargopolov");
+		userEntity.setFirstName("victor");
+		userEntity.setLastName("tello");
 		userEntity.setUserId("1a2b3c");
 		userEntity.setEncryptedPassword("xxx");
 		userEntity.setEmail("test@test.com");
@@ -55,8 +59,8 @@ class UserRepositoryTest {
 
 		// Prepare User Addresses
 		AddressEntity addressEntity = new AddressEntity();
-		addressEntity.setType("shipping");
-		addressEntity.setAddressId("ahgyt74hfy");
+		addressEntity.setType("hugo");
+		addressEntity.setAddressId("miramontes");
 		addressEntity.setCity("Vancouver");
 		addressEntity.setCountry("Canada");
 		addressEntity.setPostalCode("ABCCDA");
