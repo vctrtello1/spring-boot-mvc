@@ -1,8 +1,8 @@
 package com.victortello.ws.io.repository;
 
+import com.victortello.ws.webservice.io.repository.UserRepository;
 import com.victortello.ws.webservice.io.entity.AddressEntity;
 import com.victortello.ws.webservice.io.entity.UserEntity;
-import com.victortello.ws.webservice.io.repository.UserRepository;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = com.victortello.ws.webservice.io.repository.UserRepository.class)
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class UserRepositoryTest {
 
 	@Autowired
@@ -26,26 +27,30 @@ class UserRepositoryTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		if (!recordsCreated) {
+			createRecords();
+		}
 	}
 
 	@Test
-	void test() {
+	final void testGetVerifiedUsers() {
+		Pageable pageableRequest = PageRequest.of(1, 1);
+		Page<UserEntity> page = userRepository.findAllUsersWithConfirmedEmailAddress(pageableRequest);
+		assertNotNull(page);
 
-		if (!recordsCreated) {
-			createRecrods();
-
-		}
-
+		List<UserEntity> userEntities = page.getContent();
+		assertNotNull(userEntities);
+		assertTrue(userEntities.size() == 1);
 	}
 
-	private void createRecrods() {
+	private void createRecords() {
 		// Prepare User Entity
 		UserEntity userEntity = new UserEntity();
-		userEntity.setFirstName("Victor");
-		userEntity.setLastName("Tello");
+		userEntity.setFirstName("Sergey");
+		userEntity.setLastName("Kargopolov");
 		userEntity.setUserId("1a2b3c");
-		userEntity.setEncryptedPassword("puma18ar");
-		userEntity.setEmail("victorhugotello@hotmail.com");
+		userEntity.setEncryptedPassword("xxx");
+		userEntity.setEmail("test@test.com");
 		userEntity.setEmailVerificationStatus(true);
 
 		// Prepare User Addresses
@@ -66,11 +71,11 @@ class UserRepositoryTest {
 
 		// Prepare User Entity
 		UserEntity userEntity2 = new UserEntity();
-		userEntity2.setFirstName("Hugo");
-		userEntity2.setLastName("Miramontes");
+		userEntity2.setFirstName("Sergey");
+		userEntity2.setLastName("Kargopolov");
 		userEntity2.setUserId("1a2b3cddddd");
-		userEntity2.setEncryptedPassword("puma18ar");
-		userEntity2.setEmail("vctrtello@gmail.com");
+		userEntity2.setEncryptedPassword("xxx");
+		userEntity2.setEmail("test@test.com");
 		userEntity2.setEmailVerificationStatus(true);
 
 		// Prepare User Addresses
