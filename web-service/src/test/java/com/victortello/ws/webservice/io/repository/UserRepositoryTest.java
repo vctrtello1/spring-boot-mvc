@@ -25,7 +25,6 @@ class UserRepositoryTest {
 	@Autowired
 	UserRepository userRepository;
 
-
 	static boolean recordsCreated = false;
 
 	@BeforeEach
@@ -47,6 +46,17 @@ class UserRepositoryTest {
 		assertTrue(userEntities.size() == 1);
 	}
 
+	@Test
+	final void testFindUserByFirstName() {
+		String firstName = "victor";
+		List<UserEntity> users = userRepository.findUserByFirstName(firstName);
+		assertNotNull(users);
+		assertTrue(users.size() == 2);
+
+		UserEntity user = users.get(0);
+		assertTrue(user.getFirstName().equals(firstName));
+	}
+
 	private void createRecords() {
 		// Prepare User Entity
 		UserEntity userEntity = new UserEntity();
@@ -59,8 +69,8 @@ class UserRepositoryTest {
 
 		// Prepare User Addresses
 		AddressEntity addressEntity = new AddressEntity();
-		addressEntity.setType("hugo");
-		addressEntity.setAddressId("miramontes");
+		addressEntity.setType("billing");
+		addressEntity.setAddressId("ahgyt74hfy");
 		addressEntity.setCity("Vancouver");
 		addressEntity.setCountry("Canada");
 		addressEntity.setPostalCode("ABCCDA");
@@ -75,8 +85,8 @@ class UserRepositoryTest {
 
 		// Prepare User Entity
 		UserEntity userEntity2 = new UserEntity();
-		userEntity2.setFirstName("Sergey");
-		userEntity2.setLastName("Kargopolov");
+		userEntity2.setFirstName("victor");
+		userEntity2.setLastName("tello");
 		userEntity2.setUserId("1a2b3cddddd");
 		userEntity2.setEncryptedPassword("xxx");
 		userEntity2.setEmail("test@test.com");
