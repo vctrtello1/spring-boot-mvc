@@ -8,6 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {
@@ -23,5 +26,20 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
     @Query(value = "select * from Users u where u.first_name = ?1", nativeQuery = true)
     List<UserEntity> findUserByFirstName(String firstName);
+
+    @Query(value = "select * from Users u where u.last_name = :lastName", nativeQuery = true)
+    List<UserEntity> findUserByLastName(@Param("lastName") String lastName);
+
+    @Query(value = "select * from Users u where first_name LIKE %:keyword% or last_name LIKE %:keyword%", nativeQuery = true)
+    List<UserEntity> findUsersByKeyword(@Param("keyword") String keyword);
+
+    @Query(value = "select u.first_name, u.last_name from Users u where u.first_name LIKE %:keyword% or u.last_name LIKE %:keyword%", nativeQuery = true)
+    List<Object[]> findUserFirstNameAndLastNameByKeyword(@Param("keyword") String keyword);
+
+    @Transactional // to get a rollback in case of error and prevent an error
+    @Modifying // is used to update or delete the data
+    @Query(value = "update users u set u.EMAIL_VERIFICATION_STATUS=:emailVerificationStatus where u.user_id=:userId", nativeQuery = true)
+    void updateUserEmailVerificationStatus(@Param("emailVerificationStatus") boolean emailVerificationStatus,
+            @Param("userId") String userId);
 
 }
