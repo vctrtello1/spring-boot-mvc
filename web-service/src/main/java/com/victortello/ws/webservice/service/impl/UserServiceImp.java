@@ -94,10 +94,6 @@ public class UserServiceImp implements UserService {
             throw new UsernameNotFoundException(email);
 
         return new UserPrincipal(userEntity);
-
-        // return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
-        // userEntity.getEmailVerificationStatus(), true, true, true, new
-        // ArrayList<>());
     }
 
     @Override

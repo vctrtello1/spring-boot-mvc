@@ -69,8 +69,8 @@ public class InitialUsersSetup {
 
         UserEntity simpleUser = new UserEntity();
 
-        simpleUser.setFirstName("hugo");
-        simpleUser.setLastName("miramontes");
+        simpleUser.setFirstName("victor");
+        simpleUser.setLastName("tello");
         simpleUser.setEmail("vctrtello@gmail.com");
         simpleUser.setEmailVerificationStatus(true);
         simpleUser.setUserId(utils.generatedUserId(30));
