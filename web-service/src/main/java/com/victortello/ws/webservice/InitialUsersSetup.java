@@ -8,6 +8,7 @@ import com.victortello.ws.webservice.io.entity.RoleEntity;
 import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.AuthorityRepository;
 import com.victortello.ws.webservice.io.repository.RoleRepository;
+import com.victortello.ws.webservice.io.repository.UserRepository;
 import com.victortello.ws.webservice.shared.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class InitialUsersSetup {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    UserRepository userRepository;
+
     @EventListener
     @Transactional
     public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -47,6 +51,10 @@ public class InitialUsersSetup {
 
         RoleEntity roleAdmin = createRole("ADMIN_USER", Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
 
+        if (roleAdmin == null) {
+            return;
+        }
+
         UserEntity adminUser = new UserEntity();
 
         adminUser.setFirstName("victor");
@@ -56,6 +64,8 @@ public class InitialUsersSetup {
         adminUser.setUserId(utils.generatedUserId(30));
         adminUser.setEncryptedPassword(bCryptPasswordEncoder.encode("marrucus"));
         adminUser.setRoles(Arrays.asList(roleUser, roleAdmin));
+
+        userRepository.save(adminUser);
 
     }
 

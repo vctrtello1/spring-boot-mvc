@@ -9,6 +9,7 @@ import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.UserRepository;
 import com.victortello.ws.webservice.io.repository.PasswordResetTokenRepository;
 import com.victortello.ws.webservice.model.response.ErrorMessages;
+import com.victortello.ws.webservice.security.UserPrincipal;
 import com.victortello.ws.webservice.service.UserService;
 import com.victortello.ws.webservice.shared.AmazonSES;
 import com.victortello.ws.webservice.shared.Utils;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -93,8 +93,11 @@ public class UserServiceImp implements UserService {
         if (userEntity == null)
             throw new UsernameNotFoundException(email);
 
-        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
-                userEntity.getEmailVerificationStatus(), true, true, true, new ArrayList<>());
+        return new UserPrincipal(userEntity);
+
+        // return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
+        // userEntity.getEmailVerificationStatus(), true, true, true, new
+        // ArrayList<>());
     }
 
     @Override
