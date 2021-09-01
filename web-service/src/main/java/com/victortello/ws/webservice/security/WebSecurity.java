@@ -31,8 +31,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .permitAll().antMatchers(HttpMethod.GET, SecurityConstants.VERIFICATION_EMAIL_URL).permitAll()
                 .antMatchers(HttpMethod.POST, SecurityConstants.PASSWORD_RESET_REQUEST_URL).permitAll()
                 .antMatchers(HttpMethod.POST, SecurityConstants.PASSWORD_RESET_URL).permitAll()
-                .antMatchers(SecurityConstants.H2_CONSOLE).permitAll().anyRequest().authenticated().and()
-                .addFilter(getAuthenticationFilter())
+                .antMatchers(SecurityConstants.H2_CONSOLE).permitAll().antMatchers(HttpMethod.DELETE, "/users/**")
+                .hasAnyRole("ADMIN").anyRequest().authenticated().and().addFilter(getAuthenticationFilter())
                 .addFilter(new AuthorizationFilter(authenticationManager(), userRepository)).sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

@@ -67,6 +67,18 @@ public class InitialUsersSetup {
 
         userRepository.save(adminUser);
 
+        UserEntity simpleUser = new UserEntity();
+
+        simpleUser.setFirstName("hugo");
+        simpleUser.setLastName("miramontes");
+        simpleUser.setEmail("vctrtello@gmail.com");
+        simpleUser.setEmailVerificationStatus(true);
+        simpleUser.setUserId(utils.generatedUserId(30));
+        simpleUser.setEncryptedPassword(bCryptPasswordEncoder.encode("marrucus"));
+        simpleUser.setRoles(Arrays.asList(roleUser));
+
+        userRepository.save(simpleUser);
+
     }
 
     @Transactional
