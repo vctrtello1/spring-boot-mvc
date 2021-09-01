@@ -1,5 +1,6 @@
 package com.victortello.ws.webservice.security;
 
+import com.victortello.ws.webservice.io.repository.UserRepository;
 import com.victortello.ws.webservice.service.UserService;
 
 import org.springframework.http.HttpMethod;
@@ -15,10 +16,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private final UserService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
 
-    public WebSecurity(UserService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(UserService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder,
+            UserRepository userRepository) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -28,8 +32,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, SecurityConstants.PASSWORD_RESET_REQUEST_URL).permitAll()
                 .antMatchers(HttpMethod.POST, SecurityConstants.PASSWORD_RESET_URL).permitAll()
                 .antMatchers(SecurityConstants.H2_CONSOLE).permitAll().anyRequest().authenticated().and()
-                .addFilter(getAuthenticationFilter()).addFilter(new AuthorizationFilter(authenticationManager()))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .addFilter(getAuthenticationFilter())
+                .addFilter(new AuthorizationFilter(authenticationManager(), userRepository)).sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.headers().frameOptions().disable();
     }

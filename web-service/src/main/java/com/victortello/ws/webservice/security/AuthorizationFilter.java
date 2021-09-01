@@ -1,12 +1,14 @@
 package com.victortello.ws.webservice.security;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.victortello.ws.webservice.io.repository.UserRepository;
+import com.victortello.ws.webservice.io.entity.UserEntity;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,9 +19,12 @@ import io.jsonwebtoken.Jwts;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
-    public AuthorizationFilter(AuthenticationManager authManager) {
+    private final UserRepository userRepository;
+
+    public AuthorizationFilter(AuthenticationManager authManager, UserRepository userRepository) {
 
         super(authManager);
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -46,7 +51,9 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                     .getSubject();
 
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+                UserEntity userEntity = userRepository.findUserByEmail(user);
+                UserPrincipal userPrincipal = new UserPrincipal(userEntity);
+                return new UsernamePasswordAuthenticationToken(user, null, userPrincipal.getAuthorities());
             }
 
             return null;
