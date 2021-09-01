@@ -5,12 +5,15 @@ import java.util.Collection;
 
 import com.victortello.ws.webservice.io.entity.AuthorityEntity;
 import com.victortello.ws.webservice.io.entity.RoleEntity;
+import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.AuthorityRepository;
 import com.victortello.ws.webservice.io.repository.RoleRepository;
+import com.victortello.ws.webservice.shared.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,12 @@ public class InitialUsersSetup {
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    Utils utils;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @EventListener
     @Transactional
     public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -34,9 +43,19 @@ public class InitialUsersSetup {
 
         AuthorityEntity deleteAuthority = createAuEntity("DELETE_AUTHORITY");
 
-        createRole("ROLE_USER", Arrays.asList(readAuthority, writeAuthority));
+        RoleEntity roleUser = createRole("ROLE_USER", Arrays.asList(readAuthority, writeAuthority));
 
-        createRole("ADMIN_USER", Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
+        RoleEntity roleAdmin = createRole("ADMIN_USER", Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
+
+        UserEntity adminUser = new UserEntity();
+
+        adminUser.setFirstName("victor");
+        adminUser.setLastName("tello");
+        adminUser.setEmail("victorhugotello@hotmail.com");
+        adminUser.setEmailVerificationStatus(true);
+        adminUser.setUserId(utils.generatedUserId(30));
+        adminUser.setEncryptedPassword(bCryptPasswordEncoder.encode("marrucus"));
+        adminUser.setRoles(Arrays.asList(roleUser, roleAdmin));
 
     }
 
