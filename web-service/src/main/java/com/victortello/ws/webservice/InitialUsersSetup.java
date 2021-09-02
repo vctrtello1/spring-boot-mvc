@@ -9,6 +9,7 @@ import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.AuthorityRepository;
 import com.victortello.ws.webservice.io.repository.RoleRepository;
 import com.victortello.ws.webservice.io.repository.UserRepository;
+import com.victortello.ws.webservice.shared.Roles;
 import com.victortello.ws.webservice.shared.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,10 @@ public class InitialUsersSetup {
 
         AuthorityEntity deleteAuthority = createAuEntity("DELETE_AUTHORITY");
 
-        RoleEntity roleUser = createRole("ROLE_USER", Arrays.asList(readAuthority, writeAuthority));
+        RoleEntity roleUser = createRole(Roles.ROLE_USER.name(), Arrays.asList(readAuthority, writeAuthority));
 
-        RoleEntity roleAdmin = createRole("ROLE_ADMIN", Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
+        RoleEntity roleAdmin = createRole(Roles.ROLE_ADMIN.name(),
+                Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
 
         if (roleAdmin == null) {
             return;
@@ -71,7 +73,7 @@ public class InitialUsersSetup {
 
         simpleUser.setFirstName("victor");
         simpleUser.setLastName("tello");
-        simpleUser.setEmail("vctrtello@gmail.com");
+        simpleUser.setEmail("test@test.com");
         simpleUser.setEmailVerificationStatus(true);
         simpleUser.setUserId(utils.generatedUserId(30));
         simpleUser.setEncryptedPassword(bCryptPasswordEncoder.encode("marrucus"));

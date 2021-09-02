@@ -1,13 +1,16 @@
 package com.victortello.ws.webservice.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.victortello.ws.webservice.exceptions.UserServiceException;
 import com.victortello.ws.webservice.io.entity.PasswordResetTokenEntity;
+import com.victortello.ws.webservice.io.entity.RoleEntity;
 import com.victortello.ws.webservice.io.entity.UserEntity;
 import com.victortello.ws.webservice.io.repository.UserRepository;
 import com.victortello.ws.webservice.io.repository.PasswordResetTokenRepository;
+import com.victortello.ws.webservice.io.repository.RoleRepository;
 import com.victortello.ws.webservice.model.response.ErrorMessages;
 import com.victortello.ws.webservice.security.UserPrincipal;
 import com.victortello.ws.webservice.service.UserService;
@@ -42,12 +45,16 @@ public class UserServiceImp implements UserService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     @Override
     public UserDto createUser(UserDto user) {
 
         UserEntity storedUserDetails = userRepository.findUserByEmail(user.getEmail());
 
         if (storedUserDetails != null)
+
             throw new UserServiceException("Record already exists");
 
         for (int i = 0; i < user.getAddresses().size(); i++) {
@@ -64,6 +71,18 @@ public class UserServiceImp implements UserService {
         userEntity.setUserId(publicUserId);
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userEntity.setEmailVerificationToken(utils.generateEmailVerificationToken(publicUserId));
+
+        // set roles
+        Collection<RoleEntity> roleEntities = new ArrayList<>();
+        for (String role : user.getRoles()) {
+            RoleEntity roleEntity = roleRepository.findByName(role);
+            if (roleEntity != null) {
+                roleEntities.add(roleEntity);
+            }
+        }
+
+        userEntity.setRoles(roleEntities);
+
         userEntity.setEmailVerificationStatus(false);
         UserEntity storeUserDetails = userRepository.save(userEntity);
         UserDto returnValue = modelMapper.map(storeUserDetails, UserDto.class);

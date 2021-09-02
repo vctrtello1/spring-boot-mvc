@@ -14,6 +14,7 @@ import com.victortello.ws.webservice.model.response.RequestOperationStatus;
 import com.victortello.ws.webservice.model.response.UserRest;
 import com.victortello.ws.webservice.service.AddressService;
 import com.victortello.ws.webservice.service.UserService;
+import com.victortello.ws.webservice.shared.Roles;
 import com.victortello.ws.webservice.shared.dto.AddressDTO;
 import com.victortello.ws.webservice.shared.dto.UserDto;
 import com.victortello.ws.webservice.model.request.PasswordResetRequestModel;
@@ -76,6 +77,8 @@ public class userController {
 
         ModelMapper modelMapper = new ModelMapper();
         UserDto userDto = modelMapper.map(userDetails, UserDto.class);
+        userDto.setRoles(Arrays.asList(Roles.ROLE_USER.name()));
+
         UserDto createdUser = userService.createUser(userDto);
         returnValue = modelMapper.map(createdUser, UserRest.class);
         return returnValue;
